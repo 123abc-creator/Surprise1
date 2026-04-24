@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>For My Melulu 💖</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      background: #7a0000;
+      color: white;
+      text-align: center;
+      font-family: 'Quicksand';
+      overflow: hidden;
+    }
+
+    h1 {
+      font-family: 'Pacifico';
+      font-size: 45px;
+    }
+
+    .hidden { display: none; }
+
+    /* 💖 HEARTS */
+    .heart {
+      position: absolute;
+      animation: float 6s linear infinite;
+    }
+
+    @keyframes float {
+      from { transform: translateY(100vh); opacity: 1; }
+      to { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    /* 🔐 SHAKE */
+    .shake {
+      animation: shake 0.3s;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      50% { transform: translateX(10px); }
+      75% { transform: translateX(-10px); }
+      100% { transform: translateX(0); }
+    }
+
+    .top-img {
+      width: 200px;
+      border-radius: 20px;
+      margin-top: 20px;
+    }
+
+    #display {
+      font-size: 40px;
+      margin: 20px;
+      letter-spacing: 10px;
+    }
+
+    .keypad button {
+      width: 70px;
+      height: 70px;
+      margin: 8px;
+      border-radius: 50%;
+      border: none;
+      font-size: 24px;
+      background: #f5dede;
+      cursor: pointer;
+    }
+
+    /* 🎁 GIFTS */
+    .gift {
+      width: 120px;
+      margin: 20px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .gift:hover { transform: scale(1.1); }
+    .gift.open { transform: rotate(20deg) scale(1.2); }
+
+    /* 💌 POPUPS */
+    .popup {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      background: rgba(0,0,0,0.7);
+    }
+
+    /* 💌 ENVELOPE */
+    .envelope {
+      width: 320px;
+      height: 200px;
+      background: #eee;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flap {
+      width: 100%;
+      height: 100px;
+      background: #ddd;
+      position: absolute;
+      top: 0;
+      transform-origin: top;
+      transition: 0.5s;
+    }
+
+    .envelope.open .flap {
+      transform: rotateX(180deg);
+    }
+
+    .letter {
+      position: absolute;
+      top: 100%;
+      left: 10px;
+      width: 300px;
+      background: #fff8e7;
+      padding: 20px;
+      border-radius: 10px;
+      color: black;
+      transition: 0.5s;
+    }
+
+    .envelope.open .letter {
+      top: -120px;
+    }
+
+    /* 🕰️ TIMELINE */
+    .memory-card {
+      background: white;
+      border-radius: 15px;
+      margin: 15px 0;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      animation: fadeIn 0.6s ease;
+    }
+
+    .memory-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .memory-card p {
+      padding: 10px;
+      font-size: 14px;
+      color: black;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .close-btn {
+      margin-top: 10px;
+      padding: 8px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+  </style>
+</head>
+
+<body>
+<img src="https://placekitten.com/300/300" width="200">
+
+<!-- 🎵 MUSIC -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<!-- 🔐 LOCK SCREEN -->
+<div id="lockScreen">
+
+  <h1>Enter Secret Code 💖</h1>
+  <img src="https://placekitten.com/300/300" class="top-img">
+
+  <div id="display">______</div>
+
+  <div class="keypad" id="keypad">
+    <button onclick="press(1)">1</button>
+    <button onclick="press(2)">2</button>
+    <button onclick="press(3)">3</button><br>
+    <button onclick="press(4)">4</button>
+    <button onclick="press(5)">5</button>
+    <button onclick="press(6)">6</button><br>
+    <button onclick="press(7)">7</button>
+    <button onclick="press(8)">8</button>
+    <button onclick="press(9)">9</button><br>
+    <button onclick="clearCode()">*</button>
+    <button onclick="press(0)">0</button>
+    <button onclick="check()">#</button>
+  </div>
+
+</div>
+
+<!-- 🎁 GIFT SCREEN -->
+<div id="giftScreen" class="hidden">
+  <h1>Gift for you 🎁</h1>
+
+  <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" class="gift" onclick="openGift(this,1)">
+  <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" class="gift" onclick="openGift(this,2)">
+  <img src="https://cdn-icons-png.flaticon.com/512/869/869869.png" class="gift" onclick="openGift(this,3)">
+</div>
+
+<!-- 💌 LETTER -->
+<div id="popup" class="popup">
+  <div class="envelope" id="envelope">
+    <div class="flap"></div>
+    <div class="letter">
+      <h3>My Dearest Mental Melulu (ente Melzeyyy)💖</h3>
+      <p>You asked me so many times why you mean so much to me… here’s the answer 💕<br><br>
+
+        You mean a lot to me — my safe place. The day I met you, you changed my life. You make my days brighter, my heart happier, and my life so much better. I’m really lucky and grateful to have you in my life 💖<br><br>
+
+        I still remember 25 Apr… the day everything changed 💕 Every moment with you feels special. From our random talks to the way you make me smile for no reason… everything about you makes my life better 🥺<br><br>
+
+        I love how even the smallest conversations with you turn into my favorite part of the day. No matter how my day is going, talking to you instantly makes everything better 💞<br><br>
+
+        You make me feel understood in a way no one else ever has. With you, I don’t have to pretend to be anything else — I can just be myself, and that’s the most beautiful feeling ever 🌸<br><br>
+
+        I still remember all those little memories we created together… they may seem small, but to me they are everything 💕 Every laugh, every message, every moment stays in my heart 🥺<br><br>
+
+        Sometimes I just sit and think how lucky I am to have you… it honestly feels unreal. You’re not just someone special to me, you’re my peace, my comfort, my happiness 💖<br><br>
+
+        Thank you for being in my life, for understanding me, for caring for me, and for always being there. You don’t even realize how much you mean to me 😭💖<br><br>
+
+        If I ever had to choose again, I would still choose you… every single time, without thinking twice 💕<br><br>
+
+        I love you more than words can ever explain… more than you will ever know 💖 💕</p>
+      <button class="close-btn" onclick="closePopup()">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🕰️ TIMELINE -->
+<div id="timeline" class="popup">
+  <div style="background:#fff8e7; padding:20px; width:350px; border-radius:15px; max-height:80vh; overflow:auto;">
+
+    <h2>Our Memories 💖</h2>
+
+    <div class="memory-card">
+      <img src="photo1.png">
+      <p>💖 19 June 2025 - First Time I Met This Mental IRL</p>
+    </div>
+
+    <div class="memory-card">
+      <img src="photo2.png">
+      <p>Our Vid Calls - Mee Vainokalzz my melzz</p>
+    </div>
+
+    <div class="memory-card">
+      <img src="photo3.png">
+      <p>🌙 Our Cute and Clingy Arguments </p>
+    </div>
+
+    <button class="close-btn" onclick="closeTimeline()">Close</button>
+
+  </div>
+</div>
+
+<script>
+
+let code = "";
+let correctCode = "190625"; // CHANGE
+
+function press(num){
+  if(code.length < 6){
+    code += num;
+    document.getElementById("display").innerText = "●".repeat(code.length);
+  }
+}
+
+function clearCode(){
+  code = "";
+  document.getElementById("display").innerText = "______";
+}
+
+function check(){
+  if(code === correctCode){
+    document.getElementById("lockScreen").classList.add("hidden");
+    document.getElementById("giftScreen").classList.remove("hidden");
+    fireworks();
+  } else {
+    let k = document.getElementById("keypad");
+    k.classList.add("shake");
+    setTimeout(()=>k.classList.remove("shake"),300);
+    clearCode();
+  }
+}
+
+function openGift(el, num){
+  el.classList.add("open");
+
+  setTimeout(() => {
+    if(num === 1){
+      document.getElementById("popup").style.display = "flex";
+      setTimeout(()=>document.getElementById("envelope").classList.add("open"),100);
+    }
+    if(num === 2){
+      document.getElementById("timeline").style.display = "flex";
+    }
+    if(num === 3){
+      window.open("https://yourlink.com");
+    }
+  }, 500);
+}
+
+function closePopup(){
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("envelope").classList.remove("open");
+}
+
+function closeTimeline(){
+  document.getElementById("timeline").style.display = "none";
+}
+
+/* 💖 HEARTS */
+setInterval(() => {
+  let h = document.createElement("div");
+  h.className = "heart";
+  h.innerText = "💖";
+  h.style.left = Math.random()*100+"vw";
+  h.style.fontSize = (10+Math.random()*20)+"px";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+/* 🎆 FIREWORKS */
+function fireworks(){
+  for(let i=0;i<30;i++){
+    let f = document.createElement("div");
+    f.innerText = "✨";
+    f.style.position="absolute";
+    f.style.left="50%";
+    f.style.top="50%";
+    document.body.appendChild(f);
+
+    let x = (Math.random()-0.5)*300;
+    let y = (Math.random()-0.5)*300;
+
+    f.animate([
+      {transform:"translate(0,0)",opacity:1},
+      {transform:`translate(${x}px,${y}px)`,opacity:0}
+    ],{duration:1000});
+
+    setTimeout(()=>f.remove(),1000);
+  }
+}
+
+</script>
+
+</body>
+</html>
